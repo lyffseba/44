@@ -1,0 +1,177 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #0a0e14;
+  --accent: #00d4aa;
+  --accent2: #4fc3f7;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --panel: rgba(10, 14, 20, 0.92);
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+  color: var(--text);
+}
+
+#canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#overlay * {
+  pointer-events: auto;
+}
+
+#hud {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+
+#zone-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+#prompt {
+  position: absolute;
+  bottom: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1.2rem;
+  background: var(--panel);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  backdrop-filter: blur(8px);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+#prompt.hidden {
+  display: none;
+}
+
+@keyframes pulse {
+  0%, 100% { border-color: var(--accent); }
+  50% { border-color: var(--accent2); }
+}
+
+kbd {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  background: #1c2128;
+  border: 1px solid #30363d;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+
+#panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(520px, 90vw);
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+  background: var(--panel);
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  backdrop-filter: blur(12px);
+  line-height: 1.6;
+}
+
+#panel.hidden {
+  display: none;
+}
+
+#panel h2 {
+  color: var(--accent);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+#panel p {
+  margin-bottom: 0.75rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+#panel .highlight {
+  color: var(--text);
+}
+
+#panel-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+#panel-close:hover {
+  color: var(--text);
+}
+
+#controls {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+#controls kbd {
+  margin-right: 0.25rem;
+}
+
+.launching {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 100;
+  font-size: 1rem;
+  color: var(--accent);
+}

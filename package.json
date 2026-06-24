@@ -1,0 +1,19 @@
+{
+  "name": "44",
+  "version": "0.1.0",
+  "description": "3D Piscine world — walk into exercises, launch terminal ready to code",
+  "type": "module",
+  "scripts": {
+    "dev": "node server/index.js",
+    "build": "vite build",
+    "start": "NODE_ENV=production node server/index.js",
+    "install-cli": "bash scripts/install.sh"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "three": "^0.172.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.7"
+  }
+}

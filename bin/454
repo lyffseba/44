@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PORT="${PORT:-4540}"
+URL="http://localhost:${PORT}"
+
+cd "$ROOT"
+
+if [[ ! -d node_modules ]]; then
+  echo "44: installing dependencies…"
+  npm install --silent
+fi
+
+if lsof -i ":${PORT}" -sTCP:LISTEN -t >/dev/null 2>&1; then
+  echo "44: server already running at ${URL}"
+else
+  echo "44: starting Piscine World…"
+  npm run dev &
+  SERVER_PID=$!
+  trap 'kill $SERVER_PID 2>/dev/null' EXIT
+
+  for _ in $(seq 1 30); do
+    if curl -sf "${URL}/api/health" >/dev/null 2>&1; then
+      break
+    fi
+    sleep 0.2
+  done
+fi
+
+if command -v xdg-open >/dev/null 2>&1; then
+  xdg-open "${URL}" >/dev/null 2>&1 &
+elif command -v gnome-open >/dev/null 2>&1; then
+  gnome-open "${URL}" >/dev/null 2>&1 &
+else
+  echo "Open in browser: ${URL}"
+fi
+
+echo ""
+echo "  ╔══════════════════════════════════════╗"
+echo "  ║  44 — Piscine World                  ║"
+echo "  ║  ${URL}               ║"
+echo "  ║  WASD move · E interact · Esc back   ║"
+echo "  ╚══════════════════════════════════════╝"
+echo ""
+
+if [[ -n "${SERVER_PID:-}" ]]; then
+  wait "$SERVER_PID"
+fi

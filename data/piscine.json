@@ -1,0 +1,91 @@
+{
+  "intro": {
+    "title": "42 & The Piscine",
+    "sections": [
+      {
+        "heading": "What is 42?",
+        "text": "École 42 is a tuition-free programming school built on peer-to-peer learning. No teachers, no lectures — you learn by doing projects, reviewing peers, and surviving the Piscine."
+      },
+      {
+        "heading": "The Piscine",
+        "text": "A 26-day intensive bootcamp. Shell scripting, C fundamentals, algorithms, exams every week. You sleep at school. You code until it compiles. The moulinette is your judge."
+      },
+      {
+        "heading": "42 Practices",
+        "text": "Norminette for style. Git for version control. No forbidden functions. Exact output or zero. Peer evaluation. Exam mode: no internet, no help, just you and vim."
+      },
+      {
+        "heading": "First → Right → Better",
+        "text": "Ship the MVP. Fix correctness. Then optimize. This world follows the same loop: walk in, get a ready workspace, code, test with mini, iterate."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "id": "reloaded",
+      "name": "Piscine Reloaded",
+      "type": "shell",
+      "color": "#ff6b6b",
+      "description": "Review exercises from your 43 repo — the foundation.",
+      "exercises": [
+        { "id": "ex00", "name": "ex00", "title": "Extract & sort archive", "files": ["exo.tar"] },
+        { "id": "ex01", "name": "ex01", "title": "Create file z with newline", "files": ["z"] },
+        { "id": "ex02", "name": "ex02", "title": "clean script", "files": ["clean"] },
+        { "id": "ex03", "name": "ex03", "title": "find_sh.sh", "files": ["find_sh.sh"] }
+      ]
+    },
+    {
+      "id": "S00",
+      "name": "Shell 00",
+      "type": "shell",
+      "color": "#4fc3f7",
+      "description": "Git, permissions, basic shell.",
+      "exercises": [
+        { "id": "ex00", "name": "ex00", "title": "Git repository", "files": [] },
+        { "id": "ex01", "name": "ex01", "title": "whoami", "files": ["whoami"] },
+        { "id": "ex02", "name": "ex02", "title": "Hello World", "files": ["hello"] },
+        { "id": "ex04", "name": "ex04", "title": "macOS", "files": ["macos"] },
+        { "id": "ex05", "name": "ex05", "title": "Permissions", "files": [] },
+        { "id": "ex06", "name": "ex06", "title": "ft_magic", "files": ["ft_magic"] },
+        { "id": "ex07", "name": "ex07", "title": "ft_magic (bis)", "files": ["ft_magic"] },
+        { "id": "ex08", "name": "ex08", "title": "ft_magic (ter)", "files": ["ft_magic"] }
+      ]
+    },
+    {
+      "id": "C00",
+      "name": "C 00",
+      "type": "c",
+      "color": "#00d4aa",
+      "description": "First steps in C — characters and numbers.",
+      "exercises": [
+        { "id": "ex00", "name": "ex00", "title": "ft_putchar", "func": "ft_putchar", "proto": "void ft_putchar(char c);" },
+        { "id": "ex01", "name": "ex01", "title": "ft_print_alphabet", "func": "ft_print_alphabet", "proto": "void ft_print_alphabet(void);" },
+        { "id": "ex02", "name": "ex02", "title": "ft_print_reverse_alphabet", "func": "ft_print_reverse_alphabet", "proto": "void ft_print_reverse_alphabet(void);" },
+        { "id": "ex03", "name": "ex03", "title": "ft_print_numbers", "func": "ft_print_numbers", "proto": "void ft_print_numbers(void);" },
+        { "id": "ex04", "name": "ex04", "title": "ft_is_negative", "func": "ft_is_negative", "proto": "void ft_is_negative(int n);" },
+        { "id": "ex05", "name": "ex05", "title": "ft_print_comb", "func": "ft_print_comb", "proto": "void ft_print_comb(void);" },
+        { "id": "ex06", "name": "ex06", "title": "ft_putnbr", "func": "ft_putnbr", "proto": "void ft_putnbr(int nb);" },
+        { "id": "ex07", "name": "ex07", "title": "ft_print_comb2", "func": "ft_print_comb2", "proto": "void ft_print_comb2(void);" },
+        { "id": "ex08", "name": "ex08", "title": "ft_print_combn", "func": "ft_print_combn", "proto": "void ft_print_combn(int n);" }
+      ]
+    },
+    {
+      "id": "C01",
+      "name": "C 01",
+      "type": "c",
+      "color": "#a78bfa",
+      "description": "Pointers, strings, memory.",
+      "exercises": [
+        { "id": "ex00", "name": "ex00", "title": "ft_ft", "func": "ft_ft", "proto": "void ft_ft(int *********nbr);" },
+        { "id": "ex01", "name": "ex01", "title": "ft_ultimate_ft", "func": "ft_ultimate_ft", "proto": "void ft_ultimate_ft(int *********nbr);" },
+        { "id": "ex02", "name": "ex02", "title": "ft_swap", "func": "ft_swap", "proto": "void ft_swap(int *a, int *b);" },
+        { "id": "ex03", "name": "ex03", "title": "ft_div_mod", "func": "ft_div_mod", "proto": "void ft_div_mod(int a, int b, int *div, int *mod);" },
+        { "id": "ex04", "name": "ex04", "title": "ft_ultimate_div_mod", "func": "ft_ultimate_div_mod", "proto": "void ft_ultimate_div_mod(int *a, int *b);" },
+        { "id": "ex05", "name": "ex05", "title": "ft_putstr", "func": "ft_putstr", "proto": "void ft_putstr(char *str);" },
+        { "id": "ex06", "name": "ex06", "title": "ft_strlen", "func": "ft_strlen", "proto": "int ft_strlen(char *str);" },
+        { "id": "ex07", "name": "ex07", "title": "ft_rev_int_tab", "func": "ft_rev_int_tab", "proto": "void ft_rev_int_tab(int *tab, int size);" },
+        { "id": "ex08", "name": "ex08", "title": "ft_sort_int_tab", "func": "ft_sort_int_tab", "proto": "void ft_sort_int_tab(int *tab, int size);" }
+      ]
+    }
+  ]
+}
