@@ -7,6 +7,7 @@ export class Player {
     this.position = new THREE.Vector3(0, 0, 8);
     this.velocity = new THREE.Vector3();
     this.keys = {};
+    this.active = false;
     this.mesh = this.createMesh();
     scene.add(this.mesh);
     this.mesh.position.copy(this.position);
@@ -31,13 +32,28 @@ export class Player {
     return group;
   }
 
-  bindInput() {
+  bindInput(canvas) {
+    canvas.tabIndex = 0;
+    canvas.addEventListener('click', () => {
+      this.active = true;
+      canvas.focus();
+    });
+    canvas.addEventListener('blur', () => { this.active = false; });
+
     window.addEventListener('keydown', (e) => {
+      if (!this.active) return;
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.code)) {
+        e.preventDefault();
+      }
       this.keys[e.code] = true;
     });
     window.addEventListener('keyup', (e) => {
       this.keys[e.code] = false;
     });
+  }
+
+  setActive(on) {
+    this.active = on;
   }
 
   update(dt, bounds) {

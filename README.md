@@ -7,45 +7,56 @@ A 3D virtual campus for 42 Piscine exercises. Walk through portals, enter exerci
 ## Quick Start
 
 ```bash
-cd /home/sebae/lyff/44
-npm install
-npm run install-cli   # adds `454` to ~/.local/bin
+cd ~/lyff/44
+npm run install-cli   # once: adds `454` to ~/.local/bin
 454
 ```
+
+Click **Enter Campus** in the browser, then explore the Hub.
+
+## Commands
+
+| Command | Action |
+|---------|--------|
+| `454` | Start server + open browser |
+| `454 stop` | Stop server |
+| `454 status` | Check if running |
+| `454 restart` | Stop + start fresh |
+
+Leave the `454` terminal open while playing. **Ctrl+C** stops the server.
 
 ## Controls
 
 | Key | Action |
 |-----|--------|
+| Click canvas | Focus for movement |
 | WASD | Move |
 | Shift | Sprint |
-| E | Interact (enter zone, start exercise) |
-| Esc | Back to hub |
+| E | Interact |
+| Esc | Back / close panel |
 
 ## Flow
 
-1. **Hub** — spawn point with two paths
-2. **42 Intro** — brief on École 42 and the Piscine
-3. **Piscine Yard** — module portals (Reloaded, Shell00, C00, C01…)
-4. **Exercise** — press E to scaffold workspace at `~/.44/piscine/<module>/<ex>/` and open a terminal
+1. **Start screen** → Enter Campus
+2. **Hub** → 42 Intro (left) or Piscine (right)
+3. **Piscine Yard** → pick module (Reloaded, Shell00, C00, C01…)
+4. **Module** → pick exercise → terminal opens at `~/.44/piscine/<module>/<ex>/`
 
-## 42 Practices Built In
+## 42 Practices
 
-- Norminette-ready C headers
-- `SUBJECT.txt` in each workspace
-- `mini` moulinette hint for C modules
-- Piscine Reloaded assets copied from [lyffseba/43](https://github.com/lyffseba/43)
+- Norminette-ready C headers with your username
+- `git init` in each module folder
+- `SUBJECT.txt` brief in every exercise
+- C modules: test with `cd .. && mini` from exercise dir
+- Piscine Reloaded assets from [lyffseba/43](https://github.com/lyffseba/43)
 
 ## Stack
 
-- Three.js (3D world)
-- Vite (dev + build)
-- Express (API + terminal launcher)
+Three.js · Vite · Express · port **4540**
 
-## Roadmap
+## Roadmap (do it better)
 
-- [ ] PDF subject viewer per exercise
-- [ ] All piscine modules (C02–C13, S01, Rush, BSQ)
-- [ ] Exam mode (timer, no browser)
-- [ ] Progress persistence
-- [ ] Richer worlds per exercise theme
+- PDF subject viewer
+- All modules (C02–C13, S01, Rush, BSQ)
+- Exam mode (timer, lockdown)
+- Progress persistence

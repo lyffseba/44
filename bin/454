@@ -1,49 +1,120 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SCRIPT="$(readlink -f "${BASH_SOURCE[0]}")"
+ROOT="$(cd "$(dirname "$SCRIPT")/.." && pwd)"
 PORT="${PORT:-4540}"
-URL="http://localhost:${PORT}"
+HOST="${HOST:-127.0.0.1}"
+URL="http://${HOST}:${PORT}"
+PIDFILE="${HOME}/.44/server.pid"
+
+server_pid() {
+  if [[ -f "$PIDFILE" ]]; then
+    local pid
+    pid="$(cat "$PIDFILE" 2>/dev/null || true)"
+    if [[ -n "$pid" ]] && kill -0 "$pid" 2>/dev/null; then
+      echo "$pid"
+      return
+    fi
+  fi
+  if command -v lsof >/dev/null 2>&1; then
+    lsof -i ":${PORT}" -sTCP:LISTEN -t 2>/dev/null | head -1 || true
+  elif command -v ss >/dev/null 2>&1; then
+    ss -ltnp "sport = :${PORT}" 2>/dev/null | awk 'NR>1 {print $6}' | sed 's/.*pid=\([0-9]*\).*/\1/' | head -1 || true
+  fi
+}
+
+stop_server() {
+  local pid
+  pid="$(server_pid)"
+  if [[ -n "$pid" ]]; then
+    kill "$pid" 2>/dev/null || true
+    sleep 0.3
+    kill -9 "$pid" 2>/dev/null || true
+    echo "44: stopped (pid $pid)"
+  else
+    echo "44: not running"
+  fi
+  rm -f "$PIDFILE"
+}
+
+open_browser() {
+  if command -v xdg-open >/dev/null 2>&1; then
+    xdg-open "${URL}" >/dev/null 2>&1 &
+  elif command -v gnome-open >/dev/null 2>&1; then
+    gnome-open "${URL}" >/dev/null 2>&1 &
+  else
+    echo "44: open in browser → ${URL}"
+  fi
+}
+
+print_banner() {
+  echo ""
+  echo "  ╔══════════════════════════════════════╗"
+  echo "  ║  44 — Piscine World                  ║"
+  echo "  ║  ${URL}               ║"
+  echo "  ║  WASD move · E interact · Esc back   ║"
+  echo "  ║  Ctrl+C here to stop the server      ║"
+  echo "  ╚══════════════════════════════════════╝"
+  echo ""
+}
+
+cleanup() {
+  rm -f "$PIDFILE"
+}
+trap cleanup EXIT INT TERM
+
+case "${1:-start}" in
+  stop)
+    trap - EXIT INT TERM
+    stop_server
+    exit 0
+    ;;
+  status)
+    trap - EXIT INT TERM
+    pid="$(server_pid)"
+    if [[ -n "$pid" ]]; then
+      echo "44: running at ${URL} (pid $pid)"
+    else
+      echo "44: not running"
+    fi
+    exit 0
+    ;;
+  restart)
+    stop_server
+    sleep 0.3
+    ;;
+  start) ;;
+  *)
+    echo "usage: 454 [start|stop|status|restart]" >&2
+    exit 1
+    ;;
+esac
 
 cd "$ROOT"
 
 if [[ ! -d node_modules ]]; then
-  echo "44: installing dependencies…"
-  npm install --silent
+  echo "44: installing dependencies (first run only)…"
+  npm install
 fi
 
-if lsof -i ":${PORT}" -sTCP:LISTEN -t >/dev/null 2>&1; then
-  echo "44: server already running at ${URL}"
-else
-  echo "44: starting Piscine World…"
-  npm run dev &
-  SERVER_PID=$!
-  trap 'kill $SERVER_PID 2>/dev/null' EXIT
-
-  for _ in $(seq 1 30); do
-    if curl -sf "${URL}/api/health" >/dev/null 2>&1; then
-      break
-    fi
-    sleep 0.2
-  done
+pid="$(server_pid)"
+if [[ -n "$pid" ]]; then
+  echo "44: already running at ${URL} (pid $pid)"
+  echo "44: opening browser — use '454 stop' to quit"
+  open_browser
+  print_banner
+  trap - EXIT INT TERM
+  exit 0
 fi
 
-if command -v xdg-open >/dev/null 2>&1; then
-  xdg-open "${URL}" >/dev/null 2>&1 &
-elif command -v gnome-open >/dev/null 2>&1; then
-  gnome-open "${URL}" >/dev/null 2>&1 &
-else
-  echo "Open in browser: ${URL}"
-fi
-
-echo ""
-echo "  ╔══════════════════════════════════════╗"
-echo "  ║  44 — Piscine World                  ║"
-echo "  ║  ${URL}               ║"
-echo "  ║  WASD move · E interact · Esc back   ║"
-echo "  ╚══════════════════════════════════════╝"
+mkdir -p "$(dirname "$PIDFILE")"
+echo "44: starting…"
+open_browser
+print_banner
+echo "44: server logs below — press Ctrl+C to stop"
 echo ""
 
-if [[ -n "${SERVER_PID:-}" ]]; then
-  wait "$SERVER_PID"
-fi
+echo $$ > "$PIDFILE"
+export PORT HOST
+exec npm run dev
